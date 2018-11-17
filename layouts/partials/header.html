@@ -23,15 +23,14 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
-    <link rel="stylesheet" href="{{ "fonts/PragmataPro0.824W/PragmataPro-Regular0.824W/stylesheet.css" | relURL }}">
-    <link rel="stylesheet" href="{{ "fonts/PragmataPro0.824W/PragmataPro-Italic0.824W/stylesheet.css" | relURL }}">
-    <link rel="stylesheet" href="{{ "fonts/PragmataPro0.824W/PragmataPro-Bold0.824W/stylesheet.css" | relURL }}">
+    <!-- google fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ .Site.Params.font }}">
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
     <link rel="stylesheet" href="{{ "css/pragmatapro.css" | relURL }}">
     <style>
         .geomicon { width: 1.5em; height: 1.5em; }
-        body{ font-family:'pragmatapro', sans-serif; }
-        code{ font-family:'pragmatapro-mono', monospace; background-color: seashell;}
+        body{ font-family:'{{ .Site.Params.font }}', sans-serif; }
+        code{ font-family:'Courier New', monospace; background-color: seashell;}
     </style>
   </head>
 {{ "<!-- LEAVING partial header.html -->" | safeHTML }}
