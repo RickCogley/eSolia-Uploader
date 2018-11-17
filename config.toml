@@ -1,8 +1,8 @@
-baseURL = "https://live.cogley.info"
+baseURL = "https://up.esolia.co.jp"
 defaultContentLanguage = "en"
 languageCode = "en-us"
-title = "RC Live"
-copyright = "This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License. Some rights reserved by James R. Cogley"
+title = "eSolia Uploader"
+copyright = "All rights reserved, eSolia Inc."
 enableGitInfo = "true"
 enableemoji = "true"
 
@@ -21,14 +21,15 @@ home = [ "HTML", "RSS", "JSON" ]
   tag = "tags"
 
 [params]
-    description = "RCLive is bite-sized blog posts from Rick Cogley."
-    keywords = "Cogley,Japan,IT,Culture"
+    description = "eSolia Uploader is... "
+    keywords = "eSolia Uploader"
     # Used when a given page doesn't set its own.
-    defaultDescription = "A post by Rick Cogley"
-    defaultKeywords = "cogley,post"
-    thumbnail = "/img/rclive-logo.png"
+    defaultDescription = "A post by eSolia"
+    defaultKeywords = "eSolia,Post"
+    thumbnail = "/img/eSolia_Square_Chicklet_Logo_Green.png"
     ISO8601 = "2006-01-02T15:04:05JST"
-    googleAnalytics = "UA-1040233-9"
+    googleAnalytics = ""
+    font = "Raleway"
 
 [imaging]
 # Default resample filter used for resizing. Default is Box,
