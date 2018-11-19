@@ -2,10 +2,55 @@
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4.2.5/dist/es6-promise.auto.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.0.0/dist/fetch.umd.min.js"></script>
 <script src="https://transloadit.edgly.net/releases/uppy/v0.28.0/dist/uppy.min.js"></script>
+
 <script>
-  var uppy = Uppy.Core()
-  uppy.use(Uppy.DragDrop, { target: '#drag-drop-area' })
-  uppy.use(Uppy.Tus, { endpoint: 'https://master.tus.io/files/' })
+  const uppy = Uppy.Core({ debug: true, autoProceed: false })
+    .use(Uppy.Transloadit, {
+      params: {
+        auth: {
+          // To avoid tampering use signatures:
+          // https://transloadit.com/docs/api/#authentication
+          key: 'f30c4420eaf311e8adf45d9a4689d142'
+        },
+        template_id: '37b88290eb9a11e89d12158c8557aff5'
+      },
+      waitForEncoding: true
+    })
+    .use(Uppy.Dashboard, {
+      inline: true,
+      target: '.DashboardContainer',
+      replaceTargetContent: true,
+      showProgressDetails: true,
+      note: 'Restrictions. Some other instructions on what to do...',
+      metaFields: [
+        { id: 'name', name: 'Name', placeholder: 'file name' },
+        { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' }
+      ],
+      browserBackButtonClose: true
+    })
+    .use(Uppy.Webcam, { target: Uppy.Dashboard })
+    .use(Uppy.Instagram, {
+      target: Uppy.Dashboard,
+      serverUrl: 'https://api2.transloadit.com/companion',
+      serverPattern: '.transloadit.com$'
+    })
+    .use(Uppy.Url, {
+      target: Uppy.Dashboard,
+      serverUrl: 'https://api2.transloadit.com/companion',
+      serverPattern: '.transloadit.com$'
+    })
+    .on('transloadit:result', (stepName, result) => {
+      // use transloadit encoding result here.
+      console.log('Result here ====>', stepName, result)
+/*       var file = uppy.getFile(result.localId)
+          var theDiv = document.getElementById('DashboardResults');
+          theDiv.innerHTML = `
+              <h2>Name: ${file.name}</h2>
+              <img src="${result.ssl_url}" /> <br />
+              <a href="${result.ssl_url}"> View </a>
+          `
+          document.body.appendChild(theDiv) */
+    })
 </script>
 
 {{ "<!-- LEAVING partial bodyend.html -->" | safeHTML }}

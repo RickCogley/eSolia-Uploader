@@ -7,4 +7,5 @@ title = "eSolia Uploader - Welcome"
 
 _Thanks for Visiting! This is eSolia Uploader_ 
 
-<div id="drag-drop-area" class="mb4"></div>
+<div class="DashboardContainer mb4"></div>
+
