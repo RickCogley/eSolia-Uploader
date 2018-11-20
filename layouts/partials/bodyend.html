@@ -4,7 +4,20 @@
 <script src="https://transloadit.edgly.net/releases/uppy/v0.28.0/dist/uppy.min.js"></script>
 
 <script>
-  const uppy = Uppy.Core({ debug: true, autoProceed: false })
+  const uppy = Uppy.Core({
+    debug: true,
+    autoProceed: false,
+    allowMultipleUploads: true,
+    restrictions: {
+      maxFileSize: null,
+      maxNumberOfFiles: null,
+      minNumberOfFiles: null,
+      allowedFileTypes: null
+    },
+    meta: {
+       username: 'eSolia'
+    }
+  })
     .use(Uppy.Transloadit, {
       params: {
         auth: {
@@ -21,11 +34,14 @@
       target: '.DashboardContainer',
       replaceTargetContent: true,
       showProgressDetails: true,
+      showLinkToFileUploadResult: true,
       note: 'Restrictions. Some other instructions on what to do...',
       metaFields: [
         { id: 'name', name: 'Name', placeholder: 'file name' },
         { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' }
       ],
+      proudlyDisplayPoweredByUppy: true,
+      disableThumbnailGenerator: false,
       browserBackButtonClose: true
     })
     .use(Uppy.Webcam, { target: Uppy.Dashboard })
