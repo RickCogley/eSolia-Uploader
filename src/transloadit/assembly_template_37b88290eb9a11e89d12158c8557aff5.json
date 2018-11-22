@@ -1,0 +1,56 @@
+{
+  "steps": {
+    ":original": {
+      "robot": "/upload/handle"
+    },
+    "filter": {
+      "use": ":original",
+      "robot": "/file/filter",
+      "accepts": [
+        [
+          "${file.mime}",
+          "regex",
+          "image"
+        ]
+      ],
+      "error_on_decline": true
+    },
+    "viruscheck": {
+      "use": "filter",
+      "robot": "/file/virusscan",
+      "error_on_decline": true
+    },
+    "convert_image_png": {
+      "use": "viruscheck",
+      "robot": "/image/resize",
+      "format": "png",
+      "imagemagick_stack": "v2.0.3"
+    },
+    "resize_image": {
+      "use": "convert_image_png",
+      "robot": "/image/resize",
+      "resize_strategy": "fit",
+      "width": 800,
+      "zoom": false,
+      "imagemagick_stack": "v2.0.3"
+    },
+    "compress_image": {
+      "use": "resize_image",
+      "robot": "/image/optimize",
+      "progressive": true
+    },
+    "export": {
+      "use": [
+        ":original",
+        "convert_image_png",
+        "resize_image",
+        "compress_image"
+      ],
+      "robot": "/s3/store",
+      "credentials": "eSolia_AWS_Master_esolia-doc-assets",
+      "url_prefix": "https://esolia-doc-assets.s3.amazonaws.com/",
+      "path": "${fields.year}/eSolia-${file.url_basename}-${file.original_id}-w${file.meta.width}px.${file.ext}"
+    }
+  },
+  "notify_url": "https://x.hookdoo.com/hook/5434145c-ee2e-11e8-8fb7-7b30c9efcee5"
+}
