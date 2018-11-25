@@ -49,7 +49,7 @@
       "robot": "/s3/store",
       "credentials": "eSolia_AWS_Master_esolia-doc-assets",
       "url_prefix": "https://esolia-doc-assets.s3.amazonaws.com/",
-      "path": "${fields.year}/eSolia-${file.url_basename}-${file.original_id}-w${file.meta.width}px.${file.ext}"
+      "path": "prdn/${fields.year}/eSolia-${file.url_basename}-${file.original_id}-w${file.meta.width}px.${file.ext}"
     }
   },
   "notify_url": "https://x.hookdoo.com/hook/5434145c-ee2e-11e8-8fb7-7b30c9efcee5"
