@@ -3,7 +3,7 @@
     ":original": {
       "robot": "/upload/handle"
     },
-    "filter": {
+    "filtered": {
       "use": ":original",
       "robot": "/file/filter",
       "accepts": [
@@ -16,18 +16,20 @@
       "error_on_decline": true
     },
     "viruscheck": {
-      "use": "filter",
+      "use": "filtered",
       "robot": "/file/virusscan",
       "error_on_decline": true
     },
-    "convert_image_png": {
+    "resize_image_150": {
       "use": "viruscheck",
       "robot": "/image/resize",
-      "format": "png",
+      "resize_strategy": "fit",
+      "width": 150,
+      "zoom": false,
       "imagemagick_stack": "v2.0.3"
     },
-    "resize_image": {
-      "use": "convert_image_png",
+    "resize_image_800": {
+      "use": "viruscheck",
       "robot": "/image/resize",
       "resize_strategy": "fit",
       "width": 800,
@@ -35,15 +37,15 @@
       "imagemagick_stack": "v2.0.3"
     },
     "compress_image": {
-      "use": "resize_image",
+      "use": ["resize_image_800","resize_image_150"],
       "robot": "/image/optimize",
       "progressive": true
     },
     "export": {
       "use": [
         ":original",
-        "convert_image_png",
-        "resize_image",
+        "resize_image_800",
+        "resize_image_150",
         "compress_image"
       ],
       "robot": "/s3/store",
