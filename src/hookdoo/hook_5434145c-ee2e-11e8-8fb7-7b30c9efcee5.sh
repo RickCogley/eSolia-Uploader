@@ -20,3 +20,7 @@ ASSEMBLYID=$(cat tassy-result.json | ${JQBIN} --compact-output --raw-output '.as
 ASSEMBLYTS=$(cat tassy-result.json | ${JQBIN} --compact-output --raw-output '.last_job_completed|gsub(" GMT"; "Z")|gsub(" "; "T")|gsub("/"; "-")')
 
 cat ${WORKINGDIR}/tassy-result.json |  ${JQBIN} --raw-output --arg tid "${TEMPLATEID}" --arg aid "${ASSEMBLYID}" --arg ats "${ASSEMBLYTS}" '[.uploads,.results.compress_image | .[] | {"Template Id": $tid, "Assembly Id": $aid, "Assembly TS": $ats, "Original Id": .original_id, "File Size": .size, "File Width": .meta.width, "File Last Modified": (.meta.date_file_modified|gsub(" GMT"; "Z")|gsub(" "; "T")|gsub("/"; "-")), "File URL": .ssl_url}]' > ${WORKINGDIR}/tassy-dbflex-ready.json
+
+curl -X "POST" "https://pro.dbflex.net/secure/api/v2/15331/${DBFLEXRESTTOKEN}/Upload%20Link/create.json" \
+     -H 'Content-Type: application/json' \
+     -d @${WORKINGDIR}/tassy-dbflex-ready.json
