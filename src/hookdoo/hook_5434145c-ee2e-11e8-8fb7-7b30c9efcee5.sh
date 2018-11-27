@@ -1,7 +1,12 @@
 #!/bin/sh
 # Run by hookdoo and INPUT var is created by the script in the hook
+# Use ${DBFLEXRESTTOKEN} in dbflex load statement
 JQBIN="/home/rcogley/bin/jq"
-WORKINGDIR="/home/rcogley"
+RMBIN="/usr/bin/rm"
+WORKINGDIR="/home/rcogley/webapps/hook_transloadit_esdocup"
+
+cd ${WORKINGDIR}
+${RMBIN} -rf *
 
 echo ${INPUT} > ${WORKINGDIR}/tassy-payload.out
 cat ${WORKINGDIR}/tassy-payload.out | php -R 'echo urldecode($argn)."\n";' > ${WORKINGDIR}/tassy-payload-decoded.out
@@ -14,4 +19,4 @@ TEMPLATEID=$(cat tassy-result.json | ${JQBIN} --compact-output --raw-output '.te
 ASSEMBLYID=$(cat tassy-result.json | ${JQBIN} --compact-output --raw-output '.assembly_id')
 ASSEMBLYTS=$(cat tassy-result.json | ${JQBIN} --compact-output --raw-output '.last_job_completed|gsub(" GMT"; "Z")|gsub(" "; "T")|gsub("/"; "-")')
 
-cat ${WORKINGDIR}/tassy-result.json |  ${JQBIN} --raw-output --arg tid "${TEMPLATEID}" --arg aid "${ASSEMBLYID}" --arg ats "${ASSEMBLYTS}" '[.uploads,.results.compress_image | .[] | {template_id: $tid, assembly_id: $aid, assembly_ts: $ats, original_id: .original_id, size: .size, width: .meta.width, last_modified: (.meta.date_file_modified|gsub(" GMT"; "Z")|gsub(" "; "T")|gsub("/"; "-")), ssl_url: .ssl_url}]' > ${WORKINGDIR}/tassy-dbflex-ready.json
+cat ${WORKINGDIR}/tassy-result.json |  ${JQBIN} --raw-output --arg tid "${TEMPLATEID}" --arg aid "${ASSEMBLYID}" --arg ats "${ASSEMBLYTS}" '[.uploads,.results.compress_image | .[] | {"Template Id": $tid, "Assembly Id": $aid, "Assembly TS": $ats, "Original Id": .original_id, "File Size": .size, "File Width": .meta.width, "File Last Modified": (.meta.date_file_modified|gsub(" GMT"; "Z")|gsub(" "; "T")|gsub("/"; "-")), ssl_url: .ssl_url}]' > ${WORKINGDIR}/tassy-dbflex-ready.json
