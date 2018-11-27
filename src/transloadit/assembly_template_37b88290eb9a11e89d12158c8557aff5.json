@@ -37,7 +37,10 @@
       "imagemagick_stack": "v2.0.3"
     },
     "compress_image": {
-      "use": ["resize_image_800","resize_image_150"],
+      "use": [
+        "resize_image_800",
+        "resize_image_150"
+      ],
       "robot": "/image/optimize",
       "progressive": true
     },
@@ -54,5 +57,5 @@
       "path": "prdn/${fields.year}/eSolia-${file.url_basename}-${file.original_id}-w${file.meta.width}px.${file.ext}"
     }
   },
-  "notify_url": "https://x.hookdoo.com/hook/5434145c-ee2e-11e8-8fb7-7b30c9efcee5"
+  "notify_url": "https://x.hookdoo.com/hook/5434145c-ee2e-11e8-8fb7-7b30c9efcee5?account_id=f30c4420eaf311e8adf45d9a4689d142"
 }
