@@ -1,4 +1,4 @@
-baseURL = "https://up.esolia.co.jp"
+baseURL = "https://files.esolia.com"
 defaultContentLanguage = "en"
 languageCode = "en-us"
 title = "eSolia Uploader"
