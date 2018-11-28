@@ -1,18 +1,24 @@
 #!/bin/sh
 # Run by hookdoo and INPUT var is created by the script in the hook
 # Use ${DBFLEXRESTTOKEN} in dbflex load statement
+# Use ${TAPIAUTH} in openssl hmac statement for sig check
 JQBIN="/home/rcogley/bin/jq"
 RMBIN="/usr/bin/rm"
+AWKBIN="/usr/bin/awk"
+PHPBIN="/usr/local/bin/php"
+PERLBIN="/usr/bin/perl"
+OPENSSLBIN="/usr/bin/openssl"
 WORKINGDIR="/home/rcogley/webapps/hook_transloadit_esdocup"
 
 cd ${WORKINGDIR}
 ${RMBIN} -rf *
 
 echo ${INPUT} > ${WORKINGDIR}/tassy-payload.out
-cat ${WORKINGDIR}/tassy-payload.out | php -R 'echo urldecode($argn)."\n";' > ${WORKINGDIR}/tassy-payload-decoded.out
-cat ${WORKINGDIR}/tassy-payload-decoded.out | awk -F'&signature=' '{print $2}' > ${WORKINGDIR}/tassy-signature.out
-cat ${WORKINGDIR}/tassy-payload-decoded.out | awk -F'&signature=' '{print $1}' > ${WORKINGDIR}/tassy-payload-decoded-pre1.out
-cat ${WORKINGDIR}/tassy-payload-decoded-pre1.out | awk -F'transloadit=' '{print $2}' > ${WORKINGDIR}/tassy-result-pre1.out
+cat ${WORKINGDIR}/tassy-payload.out | ${PHPBIN} -R 'echo urldecode($argn)."\n";' > ${WORKINGDIR}/tassy-payload-decoded.out
+cat ${WORKINGDIR}/tassy-payload-decoded.out | ${AWKBIN} -F'&signature=' '{print $2}' > ${WORKINGDIR}/tassy-signature.out
+cat ${WORKINGDIR}/tassy-payload-decoded.out | ${AWKBIN} -F'&signature=' '{print $1}' > ${WORKINGDIR}/tassy-payload-decoded-pre1.out
+cat ${WORKINGDIR}/tassy-payload-decoded-pre1.out | ${AWKBIN} -F'transloadit=' '{print $2}' > ${WORKINGDIR}/tassy-result-pre1.out
+${PERLBIN} -pe 'chomp if eof' ${WORKINGDIR}/tassy-result-pre1.out | ${OPENSSLBIN} sha1 -hmac "${TAPIAUTH}" | ${AWKBIN} '{print $2}' > ${WORKINGDIR}/tassy-signature-local-confirm.out
 cat ${WORKINGDIR}/tassy-result-pre1.out | ${JQBIN} '.' > ${WORKINGDIR}/tassy-result.json
 
 TEMPLATEID=$(cat tassy-result.json | ${JQBIN} --compact-output --raw-output '.template_id')
