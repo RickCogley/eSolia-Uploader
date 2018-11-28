@@ -8,6 +8,7 @@ AWKBIN="/usr/bin/awk"
 PHPBIN="/usr/local/bin/php"
 PERLBIN="/usr/bin/perl"
 OPENSSLBIN="/usr/bin/openssl"
+CMPBIN="/usr/bin/cmp"
 WORKINGDIR="/home/rcogley/webapps/hook_transloadit_esdocup"
 
 cd ${WORKINGDIR}
@@ -27,6 +28,10 @@ ASSEMBLYTS=$(cat tassy-result.json | ${JQBIN} --compact-output --raw-output '.la
 
 cat ${WORKINGDIR}/tassy-result.json |  ${JQBIN} --raw-output --arg tid "${TEMPLATEID}" --arg aid "${ASSEMBLYID}" --arg ats "${ASSEMBLYTS}" '[.uploads,.results.compress_image | .[] | {"Template Id": $tid, "Assembly Id": $aid, "Assembly TS": $ats, "Original Id": .original_id, "File Size": .size, "File Width": .meta.width, "File Last Modified": (.meta.date_file_modified|gsub(" GMT"; "Z")|gsub(" "; "T")|gsub("/"; "-")), "File URL": .ssl_url}]' > ${WORKINGDIR}/tassy-dbflex-ready.json
 
+# Compare sigs and if ok then POST it to PROdb
+if ${CMPBIN} ${WORKINGDIR}/tassy-signature.out ${WORKINGDIR}/tassy-signature-local-confirm.out >/dev/null 2>&1
+then
 curl -X "POST" "https://pro.dbflex.net/secure/api/v2/15331/${DBFLEXRESTTOKEN}/Upload%20Link/create.json" \
      -H 'Content-Type: application/json' \
      -d @${WORKINGDIR}/tassy-dbflex-ready.json
+fi
