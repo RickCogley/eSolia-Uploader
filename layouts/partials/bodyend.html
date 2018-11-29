@@ -37,7 +37,7 @@
       target: '.DashboardContainer',
       replaceTargetContent: true,
       showProgressDetails: true,
-      showLinkToFileUploadResult: true,
+      showLinkToFileUploadResult: false,
       height: 300,
       width: 900,
       note: 'Uploaded images renamed with "eSolia" prefix.',
@@ -63,6 +63,10 @@
     .on('transloadit:result', (stepName, result) => {
       // use transloadit encoding result here. stepName
       console.log('Result here ====>', stepName, result)
+      // skip everything _except_ :original and compress_image
+      if (stepName !== ':original' && stepName !== 'compress_image') {
+        return
+      }
       const file = uppy.getFile(result.localId)
       var resultContainer = document.createElement('div')
       resultContainer.innerHTML = `
