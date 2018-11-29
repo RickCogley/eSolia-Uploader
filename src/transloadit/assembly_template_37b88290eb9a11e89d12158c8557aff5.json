@@ -26,7 +26,8 @@
       "resize_strategy": "fit",
       "width": 150,
       "zoom": false,
-      "imagemagick_stack": "v2.0.3"
+      "imagemagick_stack": "v2.0.3",
+      "result": false
     },
     "resize_image_800": {
       "use": "viruscheck",
@@ -34,7 +35,8 @@
       "resize_strategy": "fit",
       "width": 800,
       "zoom": false,
-      "imagemagick_stack": "v2.0.3"
+      "imagemagick_stack": "v2.0.3",
+      "result": false
     },
     "compress_image": {
       "use": [
