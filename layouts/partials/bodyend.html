@@ -63,14 +63,14 @@
     .on('transloadit:result', (stepName, result) => {
       // use transloadit encoding result here.
       console.log('Result here ====>', stepName, result)
-/*       var file = uppy.getFile(result.localId)
+       var file = uppy.getFile(result.localId)
           var theDiv = document.getElementById('DashboardResults');
           theDiv.innerHTML = `
-              <h2>Name: ${file.name}</h2>
+              <h3>Name: ${file.name}</h3>
               <img src="${result.ssl_url}" /> <br />
               <a href="${result.ssl_url}"> View </a>
           `
-          document.body.appendChild(theDiv) */
+          document.body.appendChild(theDiv)
     })
 </script>
 
