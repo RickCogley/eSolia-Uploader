@@ -73,7 +73,10 @@
       resultContainer.innerHTML = `
           <h4>Width: ${result.meta.width}px ${file.name}</h4>
           <img src="${result.ssl_url}" width="75px" /> <br />
-          <a href="${result.ssl_url}">Link</a><button class="btn" data-clipboard-text="${result.ssl_url}">Copy</button>
+          <a class="f7 link dim br-pill ba ph2 pv1 mb1 dib dark-blue" href="${result.ssl_url}" target="_blank">View File</a>
+          <a class="f7 link dim br-pill ba ph2 pv1 mb1 dib dark-green btn" href="#0" data-clipboard-text="${result.ssl_url}">Copy URL</a>
+          <a class="f7 link dim br-pill ba ph2 pv1 mb1 dib dark-green btn" href="#0" data-clipboard-text="![${result.meta.width}px ${file.name}](${result.ssl_url})">Copy MD</a>
+          <a class="f7 link dim br-pill ba ph2 pv1 mb1 dib dark-blue" href="https://pro.dbflex.net/secure/db/15331/overview.aspx?t=510378" target="_blank">PROdb</a>
       `
       document
         .getElementById('uppy-transloadit-result')
