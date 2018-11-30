@@ -3,8 +3,14 @@
     ":original": {
       "robot": "/upload/handle"
     },
+    "metawrite": {
+      "use": [":original"],
+      "robot": "/meta/write",
+      "result": true,
+      "data_to_write": {"copyright":"Copyright eSolia Inc."}
+    },
     "filtered": {
-      "use": ":original",
+      "use": "metawrite",
       "robot": "/file/filter",
       "accepts": [
         [
