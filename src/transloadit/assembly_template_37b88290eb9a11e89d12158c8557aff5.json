@@ -4,10 +4,14 @@
       "robot": "/upload/handle"
     },
     "metawrite": {
-      "use": [":original"],
+      "use": [
+        ":original"
+      ],
       "robot": "/meta/write",
       "result": true,
-      "data_to_write": {"copyright":"Copyright eSolia Inc."}
+      "data_to_write": {
+        "copyright": "Copyright eSolia Inc."
+      }
     },
     "filtered": {
       "use": "metawrite",
@@ -60,6 +64,9 @@
         "compress_image"
       ],
       "robot": "/s3/store",
+      "headers": {
+        "Content-Disposition": "attachment; filename=eSolia-${file.basename}-${file.original_id}-w${file.meta.width}px.${file.ext}"
+      },
       "credentials": "eSolia_AWS_Master_esolia-doc-assets",
       "url_prefix": "https://esolia-doc-assets.s3.amazonaws.com/",
       "path": "prdn/${fields.year}/eSolia-${file.url_basename}-${file.original_id}-w${file.meta.width}px.${file.ext}"
