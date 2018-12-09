@@ -1,4 +1,5 @@
 #!/bin/sh
+# For posting uploaded files via transloadit to PROdb
 # Run by hookdoo and INPUT var is created by the script in the hook
 # Use ${DBFLEXRESTTOKEN} in dbflex load statement
 # Use ${TAPIAUTH} in openssl hmac statement for sig check
